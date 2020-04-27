@@ -11,10 +11,14 @@ class Gallery extends Controller {
         
     # Any models required to interact with this controller should be loaded here    
     $this->load_model("DbModel");
-    $this->load_model("PageModel");     
+    $this->load_model("PageModel");
+    $this->load_model("StartupModel");
     
     # Instantiate custom view output
-    $this->output = new PageView();    
+    $this->output = new PageView();
+    
+    # Startup methods
+    $this->startup();
   }
   
   # Each method will request the model to present the local resource
@@ -27,6 +31,28 @@ class Gallery extends Controller {
   public function not_found() {
     # 404 page
     $this->build_page("not-found");    
+  }
+  
+  # Start setup
+  private function startup() {
+    # If DB doesn't exists create it
+    if (!$this->get_model("DbModel")->test_db()) {
+      $this->get_model("StartupModel")->first_run();
+      $this->redirect("gallery");
+    }
+    
+    # If DB tables aren't setup, create them
+    if (!$this->get_model("StartupModel")->test_tables()) {
+      if (file_exists(ROOT . DS . "config" . DS . "createtables.sql")) {
+        $sql = file_get_contents(ROOT . DS . "config" . DS . "createtables.sql");
+        $this->get_model("StartupModel")->setup_tables($sql);
+        $this->redirect("gallery");
+      }
+      else {
+        $this->build_page("db-error");
+      }
+    }
+    
   }
   
   # Controller/Model/View link
