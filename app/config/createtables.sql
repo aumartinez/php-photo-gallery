@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS gallery (
   file_name VARCHAR(150) NOT NULL,
   file_path VARCHAR(150) NOT NULL,
   file_caption VARCHAR(255) NOT NULL,
+  created_date DATETIME NOT NULL,
   PRIMARY KEY (id),
   UNIQUE (file_path)
 ) ENGINE = MyISAM DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 1;
