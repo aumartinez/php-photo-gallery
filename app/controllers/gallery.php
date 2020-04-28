@@ -23,7 +23,34 @@ class Gallery extends Controller {
   
   # Each method will request the model to present the local resource
   public function index() {        
-    # Index page
+    
+    $active_key = "ACTIVE";
+    $active_class = "";
+    
+    $this->output->add_locale($active_key, $active_class);
+    
+    $err_key = "UPLOAD_ERROR";
+    $err_mess = "";
+    
+    if (isset($_SESSION["error"]) && isset($_SESSION["submit-form"])){
+      $active_key = "ACTIVE";
+      $active_class = "active";
+      
+      $this->output->add_locale($active_key, $active_class);
+      
+      $err_mess = "\n";
+      $err_mess .= "Errors found!";
+      $err_mess .= "<br />\n";
+      
+      foreach ($_SESSION["error"] as $error) {
+        $err_mess .= $error . "<br />\n";
+      }
+    
+      unset($_SESSION["error"]);
+      unset($_SESSION["submit-form"]);
+    }
+    
+    $this->output->add_locale($err_key, $err_mess);  
     $this->build_page("gallery");  
   }
   
