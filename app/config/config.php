@@ -18,7 +18,7 @@ define ("SITE_ROOT", "/" . PATH);
 define ("MEDIA", SITE_ROOT . "/" . "common");
 define ("HTML", "common" . DS . "html");
 define ("SECTION", "common" . DS . "section");
-define ("UPLOAD", "common" . DS . "upload");
+define ("UPLOAD", "common/upload/");
 
 # Default states
 define ("DEFAULT_CONTROLLER", "gallery");
@@ -29,6 +29,5 @@ define ("NOT_FOUND", "not_found");
 define ("LOCALES", 
         array(
           "SITE_ROOT" => SITE_ROOT,
-          "MEDIA" => MEDIA,
-          "PROFILE_PIC" => MEDIA . "/img/default-pic.png"
+          "MEDIA" => MEDIA
         ));
